@@ -102,7 +102,7 @@ router.post(
   }
 );
 
-//ROUTE 2:Get login userdetails Get  /api/auth/getuser. login required
+//ROUTE 3:Get login userdetails Get  /api/auth/getuser. login required
 
 router.post("/getuser", Fetchuser, async (req, res) => {
   try {
