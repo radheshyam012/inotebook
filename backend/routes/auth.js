@@ -22,15 +22,18 @@ router.post(
     //if there are errors ,return bad request
     const error = validationResult(req);
     if (!error.isEmpty()) {
-      res.status(400).json({ errors: error.array() });
+      success = false;
+      res.status(400).json({ success, errors: error.array() });
     }
     //check weather the user with same email exists already
     try {
       let user = await User.findOne({ email: req.body.email });
       if (user) {
-        return res
-          .status(400)
-          .json({ error: "Sorry user with this email already exists!" });
+        success = false;
+        return res.status(400).json({
+          success,
+          error: "Sorry user with this email already exists!",
+        });
       }
       //create new user
       const salt = await bcrypt.genSalt(10);
@@ -47,8 +50,8 @@ router.post(
         },
       };
       const authToken = jwt.sign(data, JWT_SECRET);
-
-      res.json({ authToken });
+      success = true;
+      res.json({ success, authToken });
       // res.json(user);
     } catch (error) {
       console.error(error.message);
@@ -68,23 +71,25 @@ router.post(
     //if there are errors ,return bad request
     const error = validationResult(req);
     if (!error.isEmpty()) {
-      res.status(400).json({ errors: error.array() });
+      success = false;
+      res.status(400).json({ success, errors: error.array() });
     }
     const { email, password } = req.body;
+    let success = false;
 
     try {
       let user = await User.findOne({ email: email });
       if (!user) {
         return res
           .status(400)
-          .json({ error: "Sorry,please enter a valid creditials" });
+          .json({ success, error: "Sorry,please enter a valid creditials" });
       }
 
       let passwordComapre = await bcrypt.compare(password, user.password);
       if (!passwordComapre) {
         return res
           .status(400)
-          .json({ error: "Sorry,please enter a valid creditials" });
+          .json({ success, error: "Sorry,please enter a valid creditials" });
       }
 
       const data = {
@@ -93,8 +98,8 @@ router.post(
         },
       };
       const authToken = jwt.sign(data, JWT_SECRET);
-
-      res.json({ authToken });
+      success = true;
+      res.json({ success, authToken });
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Internal server error");
