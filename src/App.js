@@ -4,12 +4,14 @@ import Navbar from "./component/Navbar";
 import Home from "./component/Home";
 import About from "./component/About";
 import NoteState from "./context/note/NoteState";
+import Alert from "./component/Alert";
 function App() {
   return (
     <>
       <NoteState>
         <Router>
           <Navbar />
+          <Alert message="this is alert message" />
           <div className="container">
             <Routes>
               <Route path="/" element={<Home />} />
