@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Alert from "./Alert";
 
-const Signup = () => {
+const Signup = (props) => {
+  
   const host = "http://localhost:5000";
   const [credentials, setCredentials] = useState({
     name: "",
@@ -31,8 +32,9 @@ const Signup = () => {
     if (json.success) {
       localStorage.setItem("token", json.authToken);
       history("/");
+      props.showAlert("Account Created Successfully!", "success");
     } else {
-      alert("Invalid Credentials");
+      props.showAlert("Invalid Details", "danger");
     }
 
     console.log(json);
