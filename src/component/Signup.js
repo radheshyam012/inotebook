@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Alert from "./Alert";
 
 const Signup = (props) => {
-  
   const host = "http://localhost:5000";
   const [credentials, setCredentials] = useState({
     name: "",
@@ -31,8 +29,8 @@ const Signup = (props) => {
     //save the auth token and redirect
     if (json.success) {
       localStorage.setItem("token", json.authToken);
-      history("/");
       props.showAlert("Account Created Successfully!", "success");
+      history("/");
     } else {
       props.showAlert("Invalid Details", "danger");
     }
@@ -45,9 +43,10 @@ const Signup = (props) => {
   };
 
   return (
-    <div className="container">
+    <div className="container mt-2">
+      <h2 className="my-3">Create an account to use iNotebook</h2>
       <form onSubmit={handleSubmit}>
-        <div className="mb-3">
+        <div className="my-3">
           <label htmlFor="name" className="form-label">
             Name
           </label>
